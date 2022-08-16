@@ -15,10 +15,7 @@
 //! back to a smaller timeout.
 
 use futures_channel::mpsc as futures_mpsc;
-use futures_util::{
-	SinkExt,
-	StreamExt,
-};
+use futures_util:: StreamExt;
 use log::debug;
 use std::{
 	io,
@@ -238,7 +235,7 @@ impl PollReadFd {
 				debug!("[select thread] read event");
 
 				// Can only fail if the other end is dropped
-				let _ = futures_executor::block_on(send_response.send(()));
+				let _ = send_response.try_send(());
 			}
 		});
 
